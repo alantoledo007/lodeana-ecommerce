@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "baseUrl": "./",
+    "paths": {
+      "@lib/*": ["./lib/*"],
+      "@components/*": ["./components/*"],
+      "@constants/*": ["./constants/*"],
+      "@layouts/*": ["./layouts/*"],
+      "@middlewares/*": ["./middlewares/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
