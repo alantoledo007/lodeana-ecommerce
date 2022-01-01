@@ -1,4 +1,4 @@
-import { ENDPOINTS } from "@constants/endpoints";
+import { ADMIN_ENDPOINTS } from "@constants/endpoints";
 import { withPageAuthRequired, useUser } from "@auth0/nextjs-auth0";
 import { useEffect, useState } from "react";
 import { AddImage } from "@components/Gallery/index";
@@ -44,7 +44,7 @@ function Details({ item }) {
   };
 
   useEffect(() => {
-    fetch(`${ENDPOINTS.gallery}`)
+    fetch(`${ADMIN_ENDPOINTS.gallery}`)
       .then((res) => res.json())
       .then((res) => setImages(res.message));
   }, []);
@@ -53,7 +53,7 @@ function Details({ item }) {
     setIsLoading(true);
     e.preventDefault();
     const images = selectedImages.map((i) => i.secure_url);
-    await fetch(ENDPOINTS.products, {
+    await fetch(ADMIN_ENDPOINTS.products, {
       method: "PUT",
       body: JSON.stringify({
         _id: item._id,
@@ -70,7 +70,7 @@ function Details({ item }) {
 
   const destroy = async () => {
     setIsLoading(true);
-    await fetch(ENDPOINTS.products, {
+    await fetch(ADMIN_ENDPOINTS.products, {
       method: "DELETE",
       body: item._id,
     })
@@ -163,7 +163,7 @@ function Details({ item }) {
                   <span>
                     {selectedImages.length} de {MAX_IMAGES}
                   </span>
-                  {images.length === 0 && <span>No tienes fotos.</span>}
+                  {images.length === 0 && <p>No tienes fotos.</p>}
                   <div className="mt-2 grid gap-4 grid-cols-2 md:grid-cols-3 overflow-y-auto max-h-96">
                     {images.map((image) => (
                       <ImageToggle
@@ -336,7 +336,7 @@ export async function getServerSideProps({ query }) {
 
   // request posts from api
   let response = await fetch(
-    `${dev ? DEV_URL : PROD_URL}${ENDPOINTS.products}?_id=${query._id}`
+    `${dev ? DEV_URL : PROD_URL}${ADMIN_ENDPOINTS.products}?_id=${query._id}`
   );
   // extract the data
   let data = await response.json();

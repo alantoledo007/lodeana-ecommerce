@@ -27,7 +27,13 @@ export default function Gallery() {
 
   return (
     <div>
-      <input name="image" onChange={parseToBase64} ref={inputRef} type="file" />
+      <input
+        name="image"
+        onChange={parseToBase64}
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+      />
       <img src={base64} width={200} />
       <button onClick={handleSubmit} disabled={!base64}>
         Subir foto
@@ -87,7 +93,12 @@ export const AddImage = ({
 
   return (
     <div>
-      <input name="image" onChange={parseToBase64} ref={inputRef} type="file" />
+      <input
+        name="image"
+        onChange={parseToBase64}
+        ref={inputRef}
+        accept="image/*"
+      />
 
       {base64 && (
         <>

@@ -1,5 +1,5 @@
-import { ENDPOINTS } from "@constants/endpoints";
-import { withPageAuthRequired, useUser } from "@auth0/nextjs-auth0";
+import { ADMIN_ENDPOINTS } from "@constants/endpoints";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useEffect, useState } from "react";
 import { AddImage } from "@components/Gallery/index";
 import Link from "next/link";
@@ -42,7 +42,7 @@ function Add() {
   };
 
   useEffect(() => {
-    fetch(`${ENDPOINTS.gallery}`)
+    fetch(`${ADMIN_ENDPOINTS.gallery}`)
       .then((res) => res.json())
       .then((res) => setImages(res.message));
   }, []);
@@ -51,7 +51,7 @@ function Add() {
     setIsLoading(true);
     e.preventDefault();
     const images = selectedImages.map((i) => i.secure_url);
-    await fetch(ENDPOINTS.products, {
+    await fetch(ADMIN_ENDPOINTS.products, {
       method: "POST",
       body: JSON.stringify({
         title,
@@ -152,7 +152,7 @@ function Add() {
                   <span>
                     {selectedImages.length} de {MAX_IMAGES}
                   </span>
-                  {images.length === 0 && <span>No tienes fotos.</span>}
+                  {images.length === 0 && <p>No tienes fotos.</p>}
                   <div className="mt-2 grid gap-4 grid-cols-2 md:grid-cols-3 overflow-y-auto max-h-96">
                     {images.map((image) => (
                       <ImageToggle

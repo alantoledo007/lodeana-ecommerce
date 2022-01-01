@@ -10,37 +10,13 @@ export default async function handler(req, res) {
       }
       return list(req, res);
     }
-
-    case "POST": {
-      return add(req, res);
-    }
-
-    case "PUT": {
-      return update(req, res);
-    }
-
-    case "DELETE": {
-      return remove(req, res);
-    }
   }
 }
 
 async function one(req, res) {
-  return resolver.one(req, res);
+  return resolver.one({ find: { published: true } }, req, res);
 }
 
 async function list(req, res) {
-  return resolver.list({ sort: { published: -1 } }, req, res);
-}
-
-async function add(req, res) {
-  return resolver.add(req, res);
-}
-
-async function update(req, res) {
-  return resolver.update(req, res);
-}
-
-async function remove(req, res) {
-  return resolver.remove(req, res);
+  return resolver.list({ find: { published: true } }, req, res);
 }

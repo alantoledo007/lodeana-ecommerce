@@ -1,9 +1,10 @@
 import ProductCard from "@components/ProductCard";
-import { ENDPOINTS } from "@constants/endpoints";
+import { ADMIN_ENDPOINTS } from "@constants/endpoints";
 import Link from "next/link";
 import { useRef, useState } from "react";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
-export default function Index({ items }) {
+function Index({ items }) {
   const [products, setProducts] = useState(items);
   return (
     <div className="w-full max-w-7xl px-10 mx-auto my-20">
@@ -42,7 +43,7 @@ export const FormSearch = ({ setProducts, defaultProducts }) => {
       return;
     }
     setIsLoading(true);
-    fetch(`${ENDPOINTS.products}?search=${inputRef.current.value}`)
+    fetch(`${ADMIN_ENDPOINTS.products}?search=${inputRef.current.value}`)
       .then((res) => res.json())
       .then((res) => {
         setProducts(res.message);
@@ -79,12 +80,14 @@ export async function getServerSideProps({ query }) {
 
   // request posts from api
   let response = await fetch(
-    `${dev ? DEV_URL : PROD_URL}${ENDPOINTS.products}?search=${
+    `${dev ? DEV_URL : PROD_URL}${ADMIN_ENDPOINTS.products}?search=${
       query.search || ""
     }`
   );
   // extract the data
   let data = await response.json();
+
+  console.log("DATA::", data);
 
   return {
     props: {
@@ -92,3 +95,5 @@ export async function getServerSideProps({ query }) {
     },
   };
 }
+
+export default withPageAuthRequired(Index);

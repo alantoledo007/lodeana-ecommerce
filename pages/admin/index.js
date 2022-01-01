@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
-export default function Admin() {
+function Admin() {
   return (
     <main className="w-full max-w-xl px-10 mx-auto my-20">
       <div className="text-center my-20">
@@ -40,3 +41,5 @@ export default function Admin() {
     </main>
   );
 }
+
+export default withPageAuthRequired(Admin);
