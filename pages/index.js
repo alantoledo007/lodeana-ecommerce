@@ -21,8 +21,8 @@ export default function Index({ items }) {
         </h1>
         <p className="text-gray-500 text-2xl mb-5">
           Zapatillas, ojotas, sandalias, cables para celular, fundas,
-          cargadores, luces leds y mucho más. Buscá lo que necesites y comprá
-          por whatsapp.
+          cargadores, luces led y mucho más. Buscá lo que necesites y comprá por
+          whatsapp.
         </p>
 
         <FormSearch setProducts={setProducts} defaultProducts={items} />
