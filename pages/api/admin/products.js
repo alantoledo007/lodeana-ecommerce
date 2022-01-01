@@ -31,7 +31,7 @@ async function one(req, res) {
 }
 
 async function list(req, res) {
-  return resolver.list({ find: {} }, req, res);
+  return resolver.list({}, req, res);
 }
 
 async function add(req, res) {
