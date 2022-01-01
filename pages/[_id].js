@@ -105,7 +105,7 @@ export async function getServerSideProps({ query }) {
 
   // request posts from api
   let response = await fetch(
-    `${dev ? DEV_URL : PROD_URL}${ENDPOINTS.products}?_id=${query._id}`
+    `${dev ? DEV_URL : PROD_URL}${ENDPOINTS.products}?_id=${query._id || ""}`
   );
   // extract the data
   let data = await response.json();

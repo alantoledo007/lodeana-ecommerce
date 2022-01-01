@@ -1,4 +1,4 @@
-import { ADMIN_ENDPOINTS } from "@constants/endpoints";
+import { ADMIN_ENDPOINTS, ENDPOINTS } from "@constants/endpoints";
 import { withPageAuthRequired, useUser } from "@auth0/nextjs-auth0";
 import { useEffect, useState } from "react";
 import { AddImage } from "@components/Gallery/index";
@@ -44,7 +44,7 @@ function Details({ item }) {
   };
 
   useEffect(() => {
-    fetch(`${ADMIN_ENDPOINTS.gallery}`)
+    fetch(`${ENDPOINTS.gallery}`)
       .then((res) => res.json())
       .then((res) => setImages(res.message));
   }, []);
@@ -336,7 +336,9 @@ export async function getServerSideProps({ query }) {
 
   // request posts from api
   let response = await fetch(
-    `${dev ? DEV_URL : PROD_URL}${ADMIN_ENDPOINTS.products}?_id=${query._id}`
+    `${dev ? DEV_URL : PROD_URL}${ADMIN_ENDPOINTS.products}?_id=${
+      query._id || ""
+    }`
   );
   // extract the data
   let data = await response.json();

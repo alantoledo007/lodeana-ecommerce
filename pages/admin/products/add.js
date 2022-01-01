@@ -1,4 +1,4 @@
-import { ADMIN_ENDPOINTS } from "@constants/endpoints";
+import { ADMIN_ENDPOINTS, ENDPOINTS } from "@constants/endpoints";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useEffect, useState } from "react";
 import { AddImage } from "@components/Gallery/index";
@@ -42,7 +42,7 @@ function Add() {
   };
 
   useEffect(() => {
-    fetch(`${ADMIN_ENDPOINTS.gallery}`)
+    fetch(`${ENDPOINTS.gallery}`)
       .then((res) => res.json())
       .then((res) => setImages(res.message));
   }, []);
