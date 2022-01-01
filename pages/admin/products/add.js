@@ -3,6 +3,18 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useEffect, useState } from "react";
 import { AddImage } from "@components/Gallery/index";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schema = yup.object().shape({
+  title: yup
+    .string()
+    .required("Este campo es requerido")
+    .min(10, "Se requieren como mínimo ${min} caracteres")
+    .max(67, "Se admiten hasta ${max} caracteres"),
+  price: yup.string().required("Este campo es requerido"),
+});
 
 const IMAGES_STATE = {
   LOADING: 0,
@@ -11,14 +23,19 @@ const IMAGES_STATE = {
 const MAX_IMAGES = 5;
 
 function Add() {
-  const [title, setTitle] = useState();
-  const [description, setDescription] = useState();
-  const [price, setPrice] = useState();
   const [images, setImages] = useState(IMAGES_STATE.LOADING);
   const [isUploadLoading, setIsUploadLoading] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const onUploadLoading = (status) => {
     setIsUploadLoading(status);
@@ -47,21 +64,22 @@ function Add() {
       .then((res) => setImages(res.message));
   }, []);
 
-  const onSubmit = async (e) => {
-    setIsLoading(true);
-    e.preventDefault();
+  const onSubmit = (data) => {
     const images = selectedImages.map((i) => i.secure_url);
-    await fetch(ADMIN_ENDPOINTS.products, {
+    if (images.length < 1) {
+      return alert("Por favor, selecciona una foto como mínimo.");
+    }
+    setIsLoading(true);
+    return fetch(ADMIN_ENDPOINTS.products, {
       method: "POST",
       body: JSON.stringify({
-        title,
-        description,
-        price,
+        ...data,
         published: true,
         images,
       }),
     })
       .then(() => {
+        reset();
         setIsSuccess(true);
       })
       .finally(() => {
@@ -79,21 +97,29 @@ function Add() {
         <h1 className="text-4xl">Publicar producto</h1>
         <p>Complete el formulario</p>
       </div>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="">
           <div>
             <div className="mt-5">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="password"
+                htmlFor="title"
               >
                 Titulo ¿Qué vas a vender?
               </label>
               <input
                 name="title"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                onChange={(e) => setTitle(e.target.value)}
+                id="title"
+                className={`shadow appearance-none border ${
+                  errors?.title?.message && "border-red-400"
+                } rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+                {...register("title")}
               />
+              {errors?.title?.message && (
+                <p className="text-red-400 text-xs mt-2">
+                  {errors.title.message}
+                </p>
+              )}
               <p className="text-gray-400 text-xs mt-2">
                 Tené en cuenta que cualquier persona tiene que saber lo que
                 estás vendiendo con solo leer el título
@@ -102,14 +128,15 @@ function Add() {
             <div className="mt-5">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="password"
+                htmlFor="description"
               >
                 Descripción
               </label>
               <textarea
                 name="description"
+                id="description"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                onChange={(e) => setDescription(e.target.value)}
+                {...register("description")}
               />
               <p className="text-gray-400 text-xs mt-2">
                 Es importante mensionar cada detalle y característica, para que
@@ -120,7 +147,7 @@ function Add() {
             <div className="mt-5">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="password"
+                htmlFor="price"
               >
                 Precio ¿Cuanto sale?
               </label>
@@ -128,9 +155,17 @@ function Add() {
                 name="price"
                 type="number"
                 step="any"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                onChange={(e) => setPrice(parseFloat(e.target.value))}
+                id="price"
+                className={`shadow appearance-none border ${
+                  errors?.title?.message && "border-red-400"
+                } rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+                {...register("price")}
               />
+              {errors?.price?.message && (
+                <p className="text-red-400 text-xs mt-2">
+                  {errors.price.message}
+                </p>
+              )}
               <p className="text-gray-400 text-xs mt-2">
                 Para los centavos usá un punto.{" "}
                 <strong>Ejemplo: 1500.50</strong>, es decir, mil quinientos con
