@@ -30,6 +30,10 @@ function Details({ item }) {
           <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
             <ImgCarousel images={item.images} />
             <div>
+              <div className="mb-2 text-green-700">
+                <span className="text-2xl font-black">${item.price}</span>
+                <span className="ml-2">Pesos argentinos</span>
+              </div>
               <div className="mb-5 text-center">
                 <a
                   href={`https://wa.me/5491157277784?text=Hola que tal! Me interesa el producto *${item.title}* https://lodeana.com.ar${router.asPath}`}
