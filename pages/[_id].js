@@ -32,9 +32,9 @@ function Details({ item }) {
             <div>
               <div className="mb-5 text-center">
                 <a
-                  href="https://wa.me/5491157277784"
+                  href={`https://wa.me/5491157277784?text=Hola que tal! Me interesa el producto *${item.title}* https://lodeana.com.ar${router.asPath}`}
                   target="_blank"
-                  className="bg-green-200 text-green-700 font-bold uppercase p-4 w-full rounded  hover:bg-green-300 focus:outline-none focus:shadow-outline"
+                  className="bg-green-200 block text-green-700 font-bold uppercase p-4 w-full rounded  hover:bg-green-300 focus:outline-none focus:shadow-outline"
                 >
                   Comprar por whatsapp
                 </a>
