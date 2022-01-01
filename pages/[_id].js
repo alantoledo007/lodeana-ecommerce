@@ -31,9 +31,13 @@ function Details({ item }) {
             <ImgCarousel images={item.images} />
             <div>
               <div className="mb-5 text-center">
-                <button className="bg-green-200 text-green-700 font-bold uppercase p-4 w-full rounded  hover:bg-green-300 focus:outline-none focus:shadow-outline">
+                <a
+                  href="https://wa.me/5491157277784"
+                  target="_blank"
+                  className="bg-green-200 text-green-700 font-bold uppercase p-4 w-full rounded  hover:bg-green-300 focus:outline-none focus:shadow-outline"
+                >
                   Comprar por whatsapp
-                </button>
+                </a>
               </div>
 
               <div className="mt-5 mb-10">
