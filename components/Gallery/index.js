@@ -93,12 +93,25 @@ export const AddImage = ({
 
   return (
     <div>
-      <input
-        name="image"
-        onChange={parseToBase64}
-        ref={inputRef}
-        accept="image/*"
-      />
+      <div>
+        {!base64 && (
+          <label
+            htmlFor="image"
+            className="block rounded-lg p-4 text-blue-700 font-semibold bg-blue-50 hover:bg-blue-100"
+          >
+            Añadir foto
+          </label>
+        )}
+        <input
+          name="image"
+          onChange={parseToBase64}
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          id="image"
+        />
+      </div>
 
       {base64 && (
         <>
@@ -107,9 +120,9 @@ export const AddImage = ({
           </div>
           <button
             type="button"
-            className={`mt-5 w-full border-2 text-gray-500 border-gray-500 ${
+            className={`mt-5 w-full border-2 text-gray-500 border-gray-200 ${
               !isLoading &&
-              "border-blue-500 text-blue-500 hover:bg-blue-700 hover:text-white"
+              "border-blue-500 text-blue-500 hover:bg-blue-500 hover:border-blue-500 hover:text-white"
             } py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
             onClick={handleSubmit}
             disabled={isLoading}
